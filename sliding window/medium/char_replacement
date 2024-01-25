@@ -1,0 +1,25 @@
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        max_len = 0  # Variable to store the maximum length of the substring
+
+        max_count = 0  # Variable to store the maximum count of a single character in the current window
+        char_count = {}  # Dictionary to store the count of each character in the current window
+        start = 0  # Start index of the current window
+
+        for end in range(len(s)):
+            # Update the count of the current character in the window
+            char_count[s[end]] = char_count.get(s[end], 0) + 1
+
+            # Update the maximum count of a single character in the current window
+            max_count = max(max_count, char_count[s[end]])
+
+            # Check if the number of operations required to make all characters in the window the same is less than or equal to k
+            while (end - start + 1 - max_count) > k:
+                # Move the start index of the window and update the counts accordingly
+                char_count[s[start]] -= 1
+                start += 1
+
+            # Update the maximum length of the substring
+            max_len = max(max_len, end - start + 1)
+
+        return max_len
